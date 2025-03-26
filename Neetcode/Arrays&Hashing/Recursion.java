@@ -12,6 +12,11 @@ public class Recursion {
         return n * factorial(n-1);
     }
 
+    /**
+     * The big O for this algorithm is O(2 ^ n)
+     * @param n
+     * @return
+     */
     public static int fibonacci(int n) {
         if (n <= 1) return n;
         return fibonacci(n - 1) + fibonacci(n - 2);
