@@ -2,7 +2,7 @@ package Sorting;
 
 public class QuickSort {
     public static void main(String[] args) {
-        int[] arr = {7, 2, 1, 6, 8, 5, 3};
+        int[] arr = { 7, 2, 1, 6, 8, 5, 3 };
         quickSort(arr, 0, arr.length - 1);
         for (int i : arr) {
             System.out.print(i + " ");
@@ -17,7 +17,7 @@ public class QuickSort {
      * Put all numbers smaller than the pivot to its left
      * Put all numbers larger than the pivot to its right
      * The pivot ends up in its final sorted position
- 
+     * 
      * Repeat:
      * Do the same thing for the left group of numbers
      * Do the same thing for the right group of numbers
@@ -26,7 +26,22 @@ public class QuickSort {
 
     public static void quickSort(int[] arr, int low, int high) {
         if (low < high) {
-            int pi = partition(arr, low, high);
+            /**
+             * In the context of QuickSort, 'pi' (partition index) is the position where the
+             * pivot element ends up after the partition operation. It's the index that
+             * divides the array into two parts:
+             * All elements to the left of pi are smaller than the pivot
+             * All elements to the right of pi are larger than the pivot
+             * The pivot element itself is at index pi
+             */
+
+            /**
+             * The partition index (pi) is important because:
+             * It tells us where to split the array for the next recursive calls
+             * The element at pi is now in its final sorted position
+             * We can recursively sort the subarrays to the left and right of pi
+             */
+            int pi = partition(arr, low, high); // partition index
             quickSort(arr, low, pi - 1);
             quickSort(arr, pi + 1, high);
         }
@@ -56,8 +71,9 @@ public class QuickSort {
      * It's called "Quick" Sort because it's usually very fast in practice
      * It sorts "in-place" (doesn't need much extra memory)
      * The choice of pivot can greatly affect performance
-     * The main idea is "divide and conquer" - 
-     * break the big problem into smaller ones by putting smaller elements on one side 
+     * The main idea is "divide and conquer" -
+     * break the big problem into smaller ones by putting smaller elements on one
+     * side
      * and larger elements on the other side of the pivot.
      */
 }
