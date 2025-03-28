@@ -12,7 +12,7 @@ public class ValidSudoku {
      * @param board A 9x9 char array representing the Sudoku board
      * @return true if the board is valid, false otherwise
      */
-    public boolean isValidSudoku(char[][] board) {
+    public static boolean isValidSudoku(char[][] board) {
         // Data structures to track digits in each row, column, and 3x3 square
         Map<Integer, Set<Character>> rows = new HashMap<>();
         Map<Integer, Set<Character>> cols = new HashMap<>();
@@ -26,18 +26,20 @@ public class ValidSudoku {
                // skip empty cell if the value is '.'
                 if (val == '.') continue;
 
-                // Calculate which 3x3 square we are in
                 /**
                   * Calculate the 3x3 square index (0-8) using the formula:
                   * (r / 3) + "," + (c / 3)
                   * This maps each cell to one of 9 squares:
-                  *  - r/3 gives the row group (0,1,2)
+                  * - r/3 gives the row group (0,1,2)
                   * - c/3 gives the column group (0,1,2)
-                  * - Multiplying row group by 3 and adding column group gives unique index
+                  * - Dividing row group by 3 and adding column group gives unique index
                  */
                 String squareKey = (r / 3) + "," + (c / 3);
-                // computeIfAbsent retrieves the HashSet for row r, creating one if it doesn't exist
-                //.contains(val) checks if this value already exists in this row
+
+                /**
+                 * computeIfAbsent retrieves the HashSet for row r, creating one if it doesn't exist
+                 * .contains(val) checks if this value already exists in this row
+                 */
                 if (rows.computeIfAbsent(r, k -> new HashSet<>()).contains(val) ||
                     // checks if the value already exists in the current column
                     cols.computeIfAbsent(c, k -> new HashSet<>()).contains(val) ||
@@ -46,6 +48,7 @@ public class ValidSudoku {
                     squares.computeIfAbsent(squareKey, k -> new HashSet<>()).contains(val)) {
                     return false;
                 }
+
                 /**
                  * Retrieves the HashSet for row r from the rows map
                  * Adds the current digit (val) to that set
