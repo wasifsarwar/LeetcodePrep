@@ -2,3 +2,4 @@ vscjava.vscode-java-pack-0.29.0.vsix
 *.iml
 *.xml
 .idea
+*.class

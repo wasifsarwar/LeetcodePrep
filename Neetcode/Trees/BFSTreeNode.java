@@ -5,5 +5,4 @@ public class BFSTreeNode {
     BFSTreeNode left;
     BFSTreeNode right;
 
-    public BFSTreeNode()
 }
