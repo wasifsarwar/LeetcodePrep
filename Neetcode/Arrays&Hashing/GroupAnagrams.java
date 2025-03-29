@@ -1,50 +1,89 @@
 import java.util.*;
 
 public class GroupAnagrams {
-    public static void main(String[] args)  {
-        String[] strs = {"ant", "eat", "reed", "tea", "deer", "deaf", "tan", "chocolate", "deer"};
+    public static void main(String[] args) {
+        String[] strs = { "ant", "eat", "reed", "tea", "deer", "deaf", "tan", "chocolate", "deer" };
         List<List<String>> result = groupAnagrams(strs);
-        for (List<String> strList: result) {
+        for (List<String> strList : result) {
+            System.out.println(strList);
+        }
+
+        // Test the alternative solution
+        System.out.println("\nAlternative solution:");
+        List<List<String>> result2 = groupAnagramsCharCount(strs);
+        for (List<String> strList : result2) {
             System.out.println(strList);
         }
     }
 
     /**
-     * 
-     * Key Insight: Instead of sorting characters (which would be O(k log k) for each string), 
-     * this approach uses a character count array as a "signature" for each anagram group.
+     * Group anagrams by using sorted strings as keys
      *
-     * @param strs
-     * @return
-     * Time complexity = O( m * n) m is the number of strings, n is the length of the longest string
-     * Space Complexity = O(m) to store m number of strings in HashMap
+     * @param strs array of strings to group
+     * @return List of anagram groups
+     * 
+     *         Time complexity = O(m * n log n) where m is the number of strings, n
+     *         is the max string length
+     *         Space Complexity = O(m) to store the strings in the HashMap
      */
-
     public static List<List<String>> groupAnagrams(String[] strs) {
-        /**
-         * Keys: String representations of character frequency arrays
-         * Values: Lists of strings that share the same character frequency pattern
-         */
-        Map<String, List<String>> strMap = new HashMap<>();
+        Map<String, List<String>> map = new HashMap<>();
 
-        for (String s: strs) {
-            int[] charCount = new int[26];
-            for (char c: s.toCharArray()) {
-               //Create character frequency counter:
+        for (String s : strs) {
+            // Sort the characters to create a key
+            char[] chars = s.toCharArray();
+            Arrays.sort(chars);
+            String key = new String(chars);
+
+            // Add to corresponding group
+            if (!map.containsKey(key)) {
+                map.put(key, new ArrayList<>());
+            }
+            map.get(key).add(s);
+        }
+
+        return new ArrayList<>(map.values());
+    }
+
+    /**
+     * Alternative approach using character counting
+     * 
+     * @param strs array of strings to group
+     * @return List of anagram groups
+     * 
+     *         Time complexity = O(m * n) where m is the number of strings, n
+     *         is the max string length (more efficient than sorting approach)
+     *         Space Complexity = O(m) to store the strings in the HashMap
+     */
+    public static List<List<String>> groupAnagramsCharCount(String[] strs) {
+        Map<String, List<String>> map = new HashMap<>();
+
+        for (String s : strs) {
+            // Create character frequency counter
+            int[] charCount = new int[26]; // Assuming only lowercase English letters
+            for (char c : s.toCharArray()) {
                 charCount[c - 'a']++;
             }
-            // Convert count array to string key:
-            String key = Arrays.toString(charCount);
-            
-            /**
-             * If this signature hasn't been seen, create a new list
-             * Add the current string to its anagram group
-             */
-             
-            // Add string to appropriate group:
-            strMap.putIfAbsent(key, new ArrayList<>());
-            strMap.get(key).add(s);
+
+            // Convert count array to string key
+            // Using a custom format to create a unique key
+            StringBuilder keyBuilder = new StringBuilder();
+            for (int i = 0; i < 26; i++) {
+                // Only include counts > 0 to make key more compact
+                if (charCount[i] > 0) {
+                    keyBuilder.append((char) ('a' + i));
+                    keyBuilder.append(charCount[i]);
+                }
+            }
+            String key = keyBuilder.toString();
+
+            // Add to corresponding group
+            if (!map.containsKey(key)) {
+                map.put(key, new ArrayList<>());
+            }
+            map.get(key).add(s);
         }
-        return new ArrayList<>(strMap.values());
+
+        return new ArrayList<>(map.values());
     }
 }

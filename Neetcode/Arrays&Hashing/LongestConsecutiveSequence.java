@@ -24,6 +24,11 @@ public class LongestConsecutiveSequence {
      *         Space Complexity: O(n) for storing elements in the HashSet
      */
     public static int longestConsecutive(int[] nums) {
+        // Handle empty array case
+        if (nums.length == 0) {
+            return 0;
+        }
+
         // Create a HashSet to store all numbers for O(1) lookups
         Set<Integer> set = new HashSet<>();
 
@@ -36,18 +41,21 @@ public class LongestConsecutiveSequence {
         // Variable to track the longest consecutive sequence found
         int longestSequence = 0;
 
-        // Iterate through each number in the array
-        for (int n : nums) {
+        // Iterate through each number in the SET instead of the array
+        // This avoids processing duplicate numbers multiple times
+        for (int n : set) {
             // Only consider numbers that are the start of a sequence.
             // Start of a sequence if n - 1 doesn't exist in the set
             // If n-1 exists in the set, then n is not the start of a sequence
             if (!set.contains(n - 1)) {
-                // Initialize length counter for the current sequence
-                int length = 0;
+                // Initialize current number and length counter
+                int currentNum = n;
+                int length = 1;
 
                 // Count consecutive numbers starting from n
-                // Keep checking if the next number (n+length) exists in the set
-                while (set.contains(n + length)) {
+                // Keep checking if the next number exists in the set
+                while (set.contains(currentNum + 1)) {
+                    currentNum++;
                     length++;
                 }
 
