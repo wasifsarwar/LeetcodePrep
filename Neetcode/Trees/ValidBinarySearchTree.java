@@ -42,6 +42,11 @@ public class ValidBinarySearchTree {
             return true;
 
         // Check if current node's value is within the valid range
+        // A valid BST requires: left < node.val < right
+        // If node.val <= left: Invalid because values should be strictly greater than
+        // left bound
+        // If node.val >= right: Invalid because values should be strictly less than
+        // right bound
         if (node.val <= left || node.val >= right)
             return false;
 
