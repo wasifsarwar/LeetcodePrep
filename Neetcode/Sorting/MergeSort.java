@@ -1,76 +1,72 @@
 package Sorting;
 
-import java.util.Arrays;
+import java.util.*;
 
 public class MergeSort {
     public static void main(String[] args) {
-        int[] arr = {5, 2, 8, 12, 1, 3};
-        arr = mergeSort(arr, 0, arr.length - 1);
+        int[] arr = { 5, 2, 8, 12, 1, 3 };
+        mergeSort(arr, 0, arr.length - 1);
         System.out.println(Arrays.toString(arr));
     }
 
-    public static int[] mergeSort(int[] arr, int start, int end) {
-        if (start < end) {  // array, starting index of array, last index of array
-            int middle = (start + end)/2;
-            mergeSort(arr, start, middle); // sort left half
-            mergeSort(arr, middle + 1, end); // sort right half
-            merge(arr, start, middle, end);
-        }
-        return arr;
+    public static void mergeSort(int[] arr, int l, int r) {
+        if (l >= r)
+            return;
+        int m = (l + r) / 2;
+
+        // divide
+        mergeSort(arr, l, m);
+        mergeSort(arr, m + 1, r);
+
+        // conquer
+        merge(arr, l, m, r);
     }
 
-    // Merges two subarrays of arr[].
-    // First subarray is arr[start - > middle]
-    // Second subarray is arr[middle + 1 -> end]
-    public static void merge(int[] arr, int start, int middle, int end) {
-        // Find lengths of two subarrays to be merged
-        int leftLength = middle - start + 1;
-        int rightLength = end - middle;
+    public static void merge(int[] arr, int l, int m, int r) {
+        ArrayList<Integer> temp = new ArrayList<>();
+        int i = l; // pointer to left sub array
+        int j = m + 1; // pointer to right sub array
 
-        //Create temporary arrays
-        int left[] = new int[leftLength];
-        int right[] = new int[rightLength];
-
-
-        //copy the sorted left and right halfs to temp arrays
-        for (int i = 0; i < leftLength; i++) {
-            left[i] = arr[start + i];
-        }
-
-        for (int i = 0 ; i < rightLength; i++) {
-            right[i] = arr[middle + 1 + i];
-        }
-
-        // initial indexes of left and right sub-arrays
-        int i = 0; //index for left
-        int j = 0; // index for right
-        int k = start; // index for merged subarray array
-
-        // merge the two sorted halves into the original array
-        while (i < leftLength && j < rightLength) {
-            if (left[i] < right[j]) {
-                arr[k] = left[i];
+        while (i <= m && j <= r) {
+            if (arr[i] <= arr[j]) {
+                temp.add(arr[i]);
                 i++;
             } else {
-                arr[k] = right[j];
+                temp.add(arr[j]);
                 j++;
             }
-            k++;
         }
 
-        // copy remaining elements of left[] array
-         while (i < leftLength){   
-            arr[k] = left[i];
+        // If there are remaining elements in the first sub array (i <= m), add them to
+        // temp
+        while (i <= m) {
+            temp.add(arr[i]);
             i++;
-            k++;
         }
 
-        // copy remaining elements of right array
-        while (j < rightLength) {
-            arr[k] = right[j];
+        // If there are remaining elements in the second sub array (j <= r), add them to
+        // temp
+        while (j <= r) {
+            temp.add(arr[j]);
             j++;
-            k++;
         }
 
+        // copy the elements from temp to array
+        for (i = l; i <= r; i++) {
+            /**
+             * i - l is the offset calculation
+             * When i = l, i - l = 0, which accesses the first element of temp.
+             * When i = r, i - l accesses the last element of temp.
+             * 
+             * Suppose l = 2, r = 5, and temp contains [1, 2, 3, 4]:
+             * For i = 2, i - l = 0, so arr[2] = temp.get(0).
+             * For i = 3, i - l = 1, so arr[3] = temp.get(1).
+             * For i = 4, i - l = 2, so arr[4] = temp.get(2).
+             * For i = 5, i - l = 3, so arr[5] = temp.get(3).
+             */
+
+            arr[i] = temp.get(i - l);
+        }
     }
+
 }
