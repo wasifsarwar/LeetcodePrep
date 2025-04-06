@@ -1,4 +1,6 @@
 import java.util.*;
+import java.util.HashSet;
+import java.util.HashMap;
 
 public class ValidSudoku {
 
@@ -21,31 +23,33 @@ public class ValidSudoku {
         // traverse through the board cell by cell
         for (int r = 0; r < 9; r++) {
             for (int c = 0; c < 9; c++) {
-               char val = board[r][c];
+                char val = board[r][c];
 
-               // skip empty cell if the value is '.'
-                if (val == '.') continue;
+                // skip empty cell if the value is '.'
+                if (val == '.')
+                    continue;
 
                 /**
-                  * Calculate the 3x3 square index (0-8) using the formula:
-                  * (r / 3) + "," + (c / 3)
-                  * This maps each cell to one of 9 squares:
-                  * - r/3 gives the row group (0,1,2)
-                  * - c/3 gives the column group (0,1,2)
-                  * - Dividing row group by 3 and adding column group gives unique index
+                 * Calculate the 3x3 square index (0-8) using the formula:
+                 * (r / 3) + "," + (c / 3)
+                 * This maps each cell to one of 9 squares:
+                 * - r/3 gives the row group (0,1,2)
+                 * - c/3 gives the column group (0,1,2)
+                 * - Dividing row group by 3 and adding column group gives unique index
                  */
                 String squareKey = (r / 3) + "," + (c / 3);
 
                 /**
-                 * computeIfAbsent retrieves the HashSet for row r, creating one if it doesn't exist
+                 * computeIfAbsent retrieves the HashSet for row r, creating one if it doesn't
+                 * exist
                  * .contains(val) checks if this value already exists in this row
                  */
                 if (rows.computeIfAbsent(r, k -> new HashSet<>()).contains(val) ||
-                    // checks if the value already exists in the current column
-                    cols.computeIfAbsent(c, k -> new HashSet<>()).contains(val) ||
-                    // Uses the formula to calculate which 3x3 square this cell belongs to
-                    // Checks if the value already exists in that square
-                    squares.computeIfAbsent(squareKey, k -> new HashSet<>()).contains(val)) {
+                // checks if the value already exists in the current column
+                        cols.computeIfAbsent(c, k -> new HashSet<>()).contains(val) ||
+                        // Uses the formula to calculate which 3x3 square this cell belongs to
+                        // Checks if the value already exists in that square
+                        squares.computeIfAbsent(squareKey, k -> new HashSet<>()).contains(val)) {
                     return false;
                 }
 

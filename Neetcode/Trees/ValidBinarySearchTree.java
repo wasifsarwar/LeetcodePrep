@@ -1,7 +1,5 @@
 package Trees;
 
-import Trees.TreeNode;
-
 /**
  * Solution for validating if a binary tree is a valid Binary Search Tree (BST).
  * A valid BST has the following properties:
