@@ -1,4 +1,3 @@
-package BinarySearch;
 
 /**
  * Solution for searching a target value in a sorted 2D matrix.

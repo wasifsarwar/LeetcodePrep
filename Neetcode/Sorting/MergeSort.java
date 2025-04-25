@@ -37,6 +37,26 @@ public class MergeSort {
             }
         }
 
+        /**
+         * The first while loop ends when either:
+         * We finish the first subarray (i > m) OR
+         * We finish the second subarray (j > r)
+         * But we might still have elements in the other subarray that haven't been
+         * processed yet. This happens because:
+         * The subarrays might be different lengths
+         * One subarray might have larger elements than the other
+         */
+
+        /**
+         * Without the cleanup while loops, we would lose any remaining elements in
+         * either subarray. That's why we need both:
+         */
+
+        /**
+         * Only one of these cleanup loops will actually execute in any given merge
+         * operation, depending on which subarray still has elements remaining.
+         */
+
         // If there are remaining elements in the first sub array (i <= m), add them to
         // temp
         while (i <= m) {

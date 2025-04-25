@@ -1,5 +1,3 @@
-package BinarySearch;
-
 /**
  * Problem 875: Koko Eating Bananas
  * 
@@ -12,5 +10,5 @@ package BinarySearch;
  */
 public class KokoEatingBananas {
 
-// hello koko
+    // hello koko
 }

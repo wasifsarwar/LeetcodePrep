@@ -4,6 +4,7 @@
 .idea
 *.class
 .vscode/settings.json
+.DS_Store
 
 
 
