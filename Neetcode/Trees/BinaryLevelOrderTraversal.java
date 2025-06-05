@@ -47,6 +47,29 @@ public class BinaryLevelOrderTraversal {
         dfs(node.right, depth + 1);
     }
 
+    public static List<List<Integer>> levelOrderTraversalBFS(TreeNode root) {
+        List<List<Integer>> result = new ArrayList<>();
+        Queue<TreeNode> queue = new LinkedList<>();
+        queue.add(root);
+        while (!queue.isEmpty()) {
+            List<Integer> levelResult = new ArrayList<>();
+            for (int i = queue.size(); i > 0; i--) {
+                TreeNode curr = queue.poll();
+                if (curr != null) {
+                    levelResult.add(curr.val);
+                    queue.add(curr.left);
+                    queue.add(curr.right);
+                }
+                if (levelResult.size() > 0) {
+                    result.add(levelResult);
+                }
+
+            }
+        }
+        return result;
+
+    }
+
     public static void main(String[] args) {
         TreeNode root = new TreeNode(5);
         root.left = new TreeNode(3);
