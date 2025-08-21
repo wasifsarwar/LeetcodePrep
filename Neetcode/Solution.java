@@ -134,4 +134,77 @@ class Solution {
             r--;
         }
     }
+
+    public int matrixSum(int[][] nums) {
+        int rows = nums.length;
+        int cols = nums[0].length;
+
+        // Create a max heap (priority queue) for each row
+        PriorityQueue<Integer>[] rowHeaps = new PriorityQueue[rows];
+        for (int i = 0; i < rows; i++) {
+            rowHeaps[i] = new PriorityQueue<>((a, b) -> b - a); // Max heap
+            for (int j = 0; j < cols; j++) {
+                rowHeaps[i].offer(nums[i][j]);
+            }
+        }
+
+        int totalScore = 0;
+
+        // Perform operations until all heaps are empty
+        while (!rowHeaps[0].isEmpty()) {
+            int maxInThisRound = 0;
+
+            // Remove the largest element from each row
+            for (int i = 0; i < rows; i++) {
+                int largest = rowHeaps[i].poll();
+                maxInThisRound = Math.max(maxInThisRound, largest);
+            }
+
+            // Add the maximum of this round to total score
+            totalScore += maxInThisRound;
+        }
+
+        return totalScore;
+    }
+
+    /**
+     * LeetCode 56: Merge Intervals
+     * 
+     * Easy approach:
+     * 1. Sort intervals by start time
+     * 2. Iterate through sorted intervals
+     * 3. If current interval overlaps with last merged interval, merge them
+     * 4. Otherwise, add current interval to result
+     * 
+     * Time Complexity: O(n log n) due to sorting
+     * Space Complexity: O(n) for the result list
+     */
+    public int[][] merge(int[][] intervals) {
+        // Edge case: empty input
+        if (intervals.length <= 1) {
+            return intervals;
+        }
+
+        // Step 1: Sort intervals by start time
+        Arrays.sort(intervals, (a, b) -> a[0] - b[0]);
+
+        // Step 2: Use a list to store merged intervals
+        List<int[]> merged = new ArrayList<>();
+
+        // Step 3: Iterate through sorted intervals
+        for (int[] interval : intervals) {
+            // If merged list is empty OR current interval doesn't overlap with the last
+            // merged interval
+            if (merged.isEmpty() || merged.get(merged.size() - 1)[1] < interval[0]) {
+                // No overlap - add current interval to result
+                merged.add(interval);
+            } else {
+                // Overlap found - merge by updating the end time of last interval
+                merged.get(merged.size() - 1)[1] = Math.max(merged.get(merged.size() - 1)[1], interval[1]);
+            }
+        }
+
+        // Step 4: Convert list back to 2D array
+        return merged.toArray(new int[merged.size()][]);
+    }
 }
